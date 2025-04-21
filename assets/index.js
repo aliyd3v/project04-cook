@@ -1,7 +1,29 @@
-const domain = 'http://192.168.0.113:7777'
+const domain = 'https://api.aif.uz';
+
+(async () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+        return window.location.href = 'https://aif.uz'
+    } else {
+        const response = await fetch(`${domain}/check-token`, {
+            method: 'get',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        const res = await response.json()
+        if (!response.ok) {
+            alert('fatal error')
+        } else {
+            if (res.status != 'success') {
+                return window.location.href = 'https://aif.uz'
+            }
+        }
+    }
+})()
+
 const socket = io(domain)
 const token = localStorage.getItem('token')
-if (!token) window.location.href = '../index.html'
 
 let Orders = []
 let orderTimesArr = []
