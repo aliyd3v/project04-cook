@@ -16,6 +16,7 @@ const domain = 'https://api.aif.uz';
             alert('fatal error')
         } else {
             if (res.status != 'success') {
+                localStorage.removeItem('token')
                 return window.location.href = 'https://aif.uz'
             }
         }
@@ -149,7 +150,7 @@ function productPrepared(id) {
 function newOrderAudioPlay() {
     new Audio('../audio/notification.mp3').play()
     setTimeout(() => {
-        new Audio('../audio/новый_заказ.mp3').play()
+        new Audio('./audio/новый_заказ.mp3').play()
     }, 1500)
 }
 
