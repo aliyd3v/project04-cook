@@ -5,12 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AIF</title>
-    <link rel="icon" href="../images/cp.png">
 </head>
 
 <body>
-
-    <script src="./index.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search)
+        const token = urlParams.get('token')
+        if (!token) {
+            window.location.href = 'https://aif.uz'
+        } else {
+            fetch('https://api.aif.uz/check-token', {
+                method: 'get',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.status == 'success') {
+                        localStorage.setItem('token', token)
+                        window.location.href = 'https://cook.aif.uz/index.html'
+                    } else {
+                        alert(res.message)
+                        window.location.href = 'https://aif.uz'
+                    }
+                })
+                .catch(err => console.error('Internal server error!'))
+        }
+    </script>
 </body>
 
 </html>
